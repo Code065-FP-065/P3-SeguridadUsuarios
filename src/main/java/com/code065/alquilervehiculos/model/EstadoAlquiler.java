@@ -2,6 +2,6 @@ package com.code065.alquilervehiculos.model;
 
 public enum EstadoAlquiler {
     PENDIENTE,
-    EN_CUROS,
+    EN_CURSO,
     FINALIZADO,
 }

@@ -3,10 +3,12 @@ package com.code065.alquilervehiculos.service.imp;
 import com.code065.alquilervehiculos.model.Alquiler;
 import com.code065.alquilervehiculos.repository.AlquilerRepository;
 import com.code065.alquilervehiculos.service.AlquilerService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AlquilerServiceImp  implements AlquilerService {
 
     private final AlquilerRepository alquilerRepository;

@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
+
+    boolean existsByCliente_IdCliente(Long idCliente);
+
+    boolean existsByVehiculo_IdVehiculo(Long idVehiculo);
 }
