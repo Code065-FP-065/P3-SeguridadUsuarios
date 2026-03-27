@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface AlquilerService {
 
-    List<Alquiler> listarVehiculos();
+    List<Alquiler> listarAlquileres();
 
-    Optional<Alquiler> buscarVehiculoPorId(Long id);
+    Optional<Alquiler> buscarAlquilerPorId(Long id);
 
     Alquiler guardarAlquiler(Alquiler alquiler);
 

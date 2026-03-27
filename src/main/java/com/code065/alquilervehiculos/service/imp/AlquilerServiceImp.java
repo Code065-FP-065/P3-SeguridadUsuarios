@@ -18,12 +18,12 @@ public class AlquilerServiceImp  implements AlquilerService {
     }
 
     @Override
-    public List<Alquiler> listarVehiculos() {
+    public List<Alquiler> listarAlquileres() {
         return alquilerRepository.findAll();
     }
 
     @Override
-    public Optional<Alquiler> buscarVehiculoPorId(Long id) {
+    public Optional<Alquiler> buscarAlquilerPorId(Long id) {
         return alquilerRepository.findById(id);
     }
 

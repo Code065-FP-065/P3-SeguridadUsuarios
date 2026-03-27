@@ -62,8 +62,13 @@
                             <!-- Para añadir vista detalles
                             <a href="#" class="icon-action">Ver</a>
                             -->
-                            <a href="#" class="icon-action">Editar</a>
-                            <a href="#" class="icon-action icon-action--danger">Eliminar</a>
+                            <a th:href="@{/alquileres/editar/{id}(id=${alquiler.idAlquiler})}" class="icon-action">Editar</a>
+                            <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.idAlquiler})}"
+                                  method="post"
+                                  class="inline-form"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este alquiler?');">
+                                <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
+                            </form>
                         </div>
                     </td>
                 </tr>
