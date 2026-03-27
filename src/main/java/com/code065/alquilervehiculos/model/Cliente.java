@@ -25,7 +25,7 @@ public class Cliente {
     @Column(name = "telefono", length = 20)
     private String telefono;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public Cliente() {}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Dashboard')}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Resumen de actividad</p>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <p class="stat-card__label">Total clientes</p>
+            <h2 class="stat-card__value">10</h2>
+        </article>
+
+        <article class="stat-card">
+            <p class="stat-card__label">Vehículos disponibles</p>
+            <h2 class="stat-card__value">5</h2>
+        </article>
+
+        <article class="stat-card">
+            <p class="stat-card__label">Alquileres activos</p>
+            <h2 class="stat-card__value">2</h2>
+        </article>
+    </section>
+
+    <section class="dashboard-grid">
+        <div class="card">
+            <div class="card__header">
+                <h3 class="card__title">Últimos clientes</h3>
+                <div class="card__actions">
+                    <a href="#" class="btn btn--outline btn--small">Crear</a>
+                    <a th:href="@{/clientes}" class="btn btn--soft btn--small">Ver todos</a>
+                </div>
+            </div>
+
+            <div class="card__body card__body--no-padding">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Fecha alta</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>David Romero Ortiz</td>
+                        <td>david.romero@email.com</td>
+                        <td>+34 601 234 567</td>
+                        <td>2026-02-25</td>
+                        <td><a href="#" class="action-link">Ver</a></td>
+                    </tr>
+                    <tr>
+                        <td>Carmen Sánchez Vargas</td>
+                        <td>carmen.sanchez@email.com</td>
+                        <td>+34 690 123 456</td>
+                        <td>2026-01-18</td>
+                        <td><a href="#" class="action-link">Ver</a></td>
+                    </tr>
+                    <tr>
+                        <td>Miguel Muñoz Castro</td>
+                        <td>miguel.munoz@email.com</td>
+                        <td>+34 689 012 345</td>
+                        <td>2025-10-22</td>
+                        <td><a href="#" class="action-link">Ver</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <aside class="card quick-actions">
+            <div class="card__header">
+                <h3 class="card__title">Acciones rápidas</h3>
+            </div>
+
+            <div class="card__body quick-actions__list">
+                <a href="#" class="quick-action-btn">Crear cliente</a>
+                <a href="#" class="quick-action-btn">Crear vehículo</a>
+                <a href="#" class="quick-action-btn">Crear alquiler</a>
+            </div>
+        </aside>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
