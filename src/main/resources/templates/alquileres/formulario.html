@@ -15,7 +15,7 @@
         <p class="page-subtitle">Completa los datos del alquiler</p>
     </section>
 
-    <div th:if="${mensajeError}" class="alert alert--error" th:text="${mensajeError}"></div>
+    <div th:replace="~{fragments/messages :: messages}"></div>
 
     <section class="card form-card">
         <div class="card__body">
