@@ -264,6 +264,12 @@
     font-weight: 500;
 }
 
+.alert--success {
+    background-color: #eefaf1;
+    border: 1px solid #cdebd4;
+    color: #246b38;
+}
+
 .alert--error {
     background-color: #fff1f1;
     border: 1px solid #f3c9c9;

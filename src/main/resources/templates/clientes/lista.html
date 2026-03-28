@@ -11,6 +11,9 @@
         <h1 class="page-title">Clientes</h1>
     </section>
 
+    <div th:if="${mensajeExito}" class="alert alert--success" th:text="${mensajeExito}"></div>
+    <div th:if="${mensajeError}" class="alert alert--error" th:text="${mensajeError}"></div>
+
     <section class="toolbar">
         <a th:href="@{/clientes/nuevo}" class="btn btn--primary">Nuevo cliente</a>
 

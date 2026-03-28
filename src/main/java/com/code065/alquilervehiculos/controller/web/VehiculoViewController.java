@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class VehiculoViewController {
@@ -46,8 +47,14 @@ public class VehiculoViewController {
     }
 
     @PostMapping("vehiculos/eliminar/{id}")
-    public String eliminarVehiculo(@PathVariable Long id) {
-        vehiculoService.eliminarVehiculo(id);
+    public String eliminarVehiculo(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            vehiculoService.eliminarVehiculo(id);
+            redirectAttributes.addFlashAttribute("mensajeExito", "Vehículo eliminado correctamente.");
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
         return "redirect:/vehiculos";
     }
 }

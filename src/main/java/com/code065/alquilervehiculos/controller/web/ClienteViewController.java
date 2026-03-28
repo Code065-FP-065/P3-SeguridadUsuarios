@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ClienteViewController {
@@ -43,9 +44,14 @@ public class ClienteViewController {
     }
 
     @PostMapping("/clientes/eliminar/{id}")
-    public String eliminarCliente(@PathVariable Long id) {
-        // Controlar la eliminación de clientes con alquiler
-        clienteService.eliminarCliente(id);
+    public String eliminarCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            clienteService.eliminarCliente(id);
+            redirectAttributes.addFlashAttribute("mensajeExito", "Cliente eliminado correctamente.");
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
         return "redirect:/clientes";
     }
 }

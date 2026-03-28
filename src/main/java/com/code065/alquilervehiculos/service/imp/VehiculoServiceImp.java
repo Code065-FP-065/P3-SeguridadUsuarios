@@ -1,6 +1,7 @@
 package com.code065.alquilervehiculos.service.imp;
 
 import com.code065.alquilervehiculos.model.Vehiculo;
+import com.code065.alquilervehiculos.repository.AlquilerRepository;
 import com.code065.alquilervehiculos.repository.VehiculoRepository;
 import com.code065.alquilervehiculos.service.VehiculoService;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class VehiculoServiceImp implements VehiculoService {
 
     private final VehiculoRepository vehiculoRepository;
+    private final AlquilerRepository alquilerRepository;
 
-    public VehiculoServiceImp(VehiculoRepository vehiculoRepository) {
+    public VehiculoServiceImp(VehiculoRepository vehiculoRepository, AlquilerRepository alquilerRepository) {
         this.vehiculoRepository = vehiculoRepository;
+        this.alquilerRepository = alquilerRepository;
     }
 
     @Override
@@ -34,6 +37,9 @@ public class VehiculoServiceImp implements VehiculoService {
 
     @Override
     public void eliminarVehiculo(Long id) {
+        if (alquilerRepository.existsByVehiculo_IdVehiculo(id)) {
+            throw new IllegalStateException("No se puede eliminar el vehículo porque tiene alquileres asociados.");
+        }
         vehiculoRepository.deleteById(id);
     }
 }

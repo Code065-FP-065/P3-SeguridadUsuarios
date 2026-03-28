@@ -1,6 +1,7 @@
 package com.code065.alquilervehiculos.service.imp;
 
 import com.code065.alquilervehiculos.model.Cliente;
+import com.code065.alquilervehiculos.repository.AlquilerRepository;
 import com.code065.alquilervehiculos.repository.ClienteRepository;
 import com.code065.alquilervehiculos.service.ClienteService;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class ClienteServiceImp implements ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final AlquilerRepository alquilerRepository;
 
-    public ClienteServiceImp(ClienteRepository clienteRepository) {
+    public ClienteServiceImp(ClienteRepository clienteRepository, AlquilerRepository alquilerRepository) {
         this.clienteRepository = clienteRepository;
+        this.alquilerRepository = alquilerRepository;
     }
 
     @Override
@@ -34,6 +37,9 @@ public class ClienteServiceImp implements ClienteService {
 
     @Override
     public void eliminarCliente(Long id) {
+        if (alquilerRepository.existsByCliente_IdCliente(id)) {
+            throw new IllegalStateException("No se puede eliminar el cliente porque tiene alquileres asociados.");
+        }
         clienteRepository.deleteById(id);
     }
 }

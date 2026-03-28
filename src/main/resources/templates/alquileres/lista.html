@@ -12,6 +12,9 @@
         <p class="page-subtitle">Gestión de alquileres de vehículos</p>
     </section>
 
+    <div th:if="${mensajeExito}" class="alert alert--success" th:text="${mensajeExito}"></div>
+    <div th:if="${mensajeError}" class="alert alert--error" th:text="${mensajeError}"></div>
+
     <section class="toolbar">
         <a th:href="@{/alquileres/nuevo}" class="btn btn--primary">Nuevo alquiler</a>
         <!-- PARA IMPLEMENTAR MÁS ADELANTE
