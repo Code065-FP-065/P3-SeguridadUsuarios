@@ -68,15 +68,27 @@ public class AlquilerViewController {
     }
 
     @PostMapping("/alquileres/guardar")
-    public String guardarAlquiler(Alquiler alquiler) {
-        Cliente cliente = clienteService.buscarClientePorId(alquiler.getCliente().getIdCliente()).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
-        Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(alquiler.getVehiculo().getIdVehiculo()).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado"));
+    public String guardarAlquiler(Alquiler alquiler, Model model) {
+        if (alquiler.getFechaInicio() == null || alquiler.getFechaFin() == null) {
+            model.addAttribute("mensajeError", "Debes indicar la fecha de inicio y la fecha de fin.");
+            model.addAttribute("clientes", clienteService.listaClientes());
+            model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
+            model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
+            return "alquileres/formulario";
+        }
 
         long diasCalculados = ChronoUnit.DAYS.between(alquiler.getFechaInicio(), alquiler.getFechaFin());
 
         if (diasCalculados <= 0) {
-            throw new IllegalArgumentException("La fecha de fin debe ser posterior a la fecha de inicio");
+            model.addAttribute("mensajeError", "La fecha de fin debe ser posterior a la fecha de inicio.");
+            model.addAttribute("clientes", clienteService.listaClientes());
+            model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
+            model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
+            return "alquileres/formulario";
         }
+
+        Cliente cliente = clienteService.buscarClientePorId(alquiler.getCliente().getIdCliente()).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+        Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(alquiler.getVehiculo().getIdVehiculo()).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado"));
 
         int dias = (int) diasCalculados;
         BigDecimal precioDiaAplicado = vehiculo.getPrecioDia();
