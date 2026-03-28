@@ -80,7 +80,7 @@
 }
 
 .btn--primary:hover {
-    background-color: #1f194f;
+    background-color: #473ab8;
 }
 
 .btn--outline {
@@ -178,6 +178,37 @@
     color: #ff6f68;
 }
 
+.icon-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #eceef3;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #505766;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.icon-action:hover {
+    background-color: #f8f9fc;
+    border-color: #d7dce5;
+    color: #2f3441;
+}
+
+.icon-action--danger {
+    color: #ff6f68;
+}
+
+.icon-action--danger:hover {
+    background-color: #fff3f2;
+    border-color: #f4c9c6;
+    color: #d94c43;
+}
+
 .action-link {
     display: inline-flex;
     align-items: center;
@@ -205,6 +236,13 @@
     background-color: #ffffff;
     color: #394150;
     font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.quick-action-btn:hover {
+    background-color: #f8f9fc;
+    border-color: #d7dce5;
+    color: #2c235f;
 }
 
 .form-card {
