@@ -33,6 +33,7 @@ public class AlquilerViewController {
     @GetMapping("/alquileres")
     public String listarAlquileres(Model model) {
         model.addAttribute("alquileres", alquilerService.listarAlquileres());
+        model.addAttribute("paginaActiva", "alquileres");
         return "alquileres/lista";
     }
 
@@ -46,6 +47,7 @@ public class AlquilerViewController {
         model.addAttribute("clientes", clienteService.listaClientes());
         model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
         model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
+        model.addAttribute("paginaActiva", "alquileres");
         return "alquileres/formulario";
     }
 
@@ -64,6 +66,7 @@ public class AlquilerViewController {
         model.addAttribute("clientes", clienteService.listaClientes());
         model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
         model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
+        model.addAttribute("paginaActiva", "alquileres");
         return "alquileres/formulario";
     }
 

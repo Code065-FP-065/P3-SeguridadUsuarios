@@ -21,12 +21,14 @@ public class ClienteViewController {
     @GetMapping("/clientes")
     public String listarClientes(Model model) {
         model.addAttribute("clientes", clienteService.listaClientes());
+        model.addAttribute("paginaActiva", "clientes");
         return "clientes/lista";
     }
 
     @GetMapping("/clientes/nuevo")
     public String mostrarFormularioNuevoCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
+        model.addAttribute("paginaActiva", "clientes");
         return "clientes/formulario";
     }
 

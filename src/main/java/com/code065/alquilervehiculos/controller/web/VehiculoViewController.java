@@ -22,6 +22,7 @@ public class VehiculoViewController {
     @GetMapping("/vehiculos")
     public String listarVehiculos(Model model) {
         model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
+        model.addAttribute("paginaActiva", "vehiculos");
         return "vehiculos/lista";
     }
 
@@ -29,6 +30,7 @@ public class VehiculoViewController {
     public String mostrarFormularioNuevoVehiculo(Model model) {
         model.addAttribute("vehiculo", new Vehiculo());
         model.addAttribute("estadosVehiculo", EstadoVehiculo.values());
+        model.addAttribute("paginaActiva", "vehiculos");
         return "vehiculos/formulario";
     }
 
@@ -37,6 +39,7 @@ public class VehiculoViewController {
         Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(id).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado con id: " + id));
         model.addAttribute("vehiculo", vehiculo);
         model.addAttribute("estadosVehiculo", EstadoVehiculo.values());
+        model.addAttribute("paginaActiva", "vehiculos");
         return "vehiculos/formulario";
     }
 
