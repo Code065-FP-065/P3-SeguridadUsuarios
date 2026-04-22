@@ -1,19 +1,50 @@
-<nav th:fragment="nav" class="main-nav" xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="nav"
+     class="main-nav"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="main-nav__container">
+
         <a th:href="@{/}"
            th:classappend="${paginaActiva == 'dashboard'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Inicio</a>
+           class="main-nav__link">
+            Inicio
+        </a>
 
-        <a th:href="@{/clientes}"
+        <!-- SOLO ADMIN -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/clientes}"
            th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Clientes</a>
+           class="main-nav__link">
+            Clientes
+        </a>
 
-        <a th:href="@{/vehiculos}"
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/vehiculos}"
            th:classappend="${paginaActiva == 'vehiculos'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Vehículos</a>
+           class="main-nav__link">
+            Vehículos
+        </a>
 
-        <a th:href="@{/alquileres}"
-           th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Alquileres</a>
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/alquileres}"
+           th:classappend="${paginaActiva == 'alquileres-admin'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Alquileres
+        </a>
+
+        <!-- USER Y ADMIN -->
+        <a sec:authorize="hasAnyRole('USER','ADMIN')"
+           th:href="@{/user/mis-alquileres}"
+           th:classappend="${paginaActiva == 'mis-alquileres'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Mis alquileres
+        </a>
+
+        <a sec:authorize="hasAnyRole('USER','ADMIN')"
+           th:href="@{/user/alquileres/nuevo}"
+           th:classappend="${paginaActiva == 'nuevo-alquiler'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Nuevo alquiler
+        </a>
     </div>
 </nav>

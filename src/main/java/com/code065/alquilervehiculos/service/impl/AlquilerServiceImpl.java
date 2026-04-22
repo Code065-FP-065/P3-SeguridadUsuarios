@@ -1,4 +1,4 @@
-package com.code065.alquilervehiculos.service.imp;
+package com.code065.alquilervehiculos.service.impl;
 
 import com.code065.alquilervehiculos.model.Alquiler;
 import com.code065.alquilervehiculos.repository.AlquilerRepository;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AlquilerServiceImp  implements AlquilerService {
+public class AlquilerServiceImpl implements AlquilerService {
 
     private final AlquilerRepository alquilerRepository;
 
-    public AlquilerServiceImp(AlquilerRepository alquilerRepository) {
+    public AlquilerServiceImpl(AlquilerRepository alquilerRepository) {
         this.alquilerRepository = alquilerRepository;
     }
 
@@ -25,6 +25,16 @@ public class AlquilerServiceImp  implements AlquilerService {
     @Override
     public Optional<Alquiler> buscarAlquilerPorId(Long id) {
         return alquilerRepository.findById(id);
+    }
+
+    @Override
+    public List<Alquiler> buscarPorCliente(Long idCliente) {
+        return alquilerRepository.findByCliente_IdCliente(idCliente);
+    }
+
+    @Override
+    public List<Alquiler> buscarPorUsername(String username) {
+        return alquilerRepository.findByCliente_Usuario_Username(username);
     }
 
     @Override

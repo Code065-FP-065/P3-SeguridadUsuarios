@@ -4,12 +4,10 @@ import com.code065.alquilervehiculos.model.Cliente;
 import com.code065.alquilervehiculos.service.ClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin/clientes")
 public class ClienteViewController {
 
     private final ClienteService clienteService;
@@ -18,42 +16,46 @@ public class ClienteViewController {
         this.clienteService = clienteService;
     }
 
-    @GetMapping("/clientes")
+    @GetMapping
     public String listarClientes(Model model) {
-        model.addAttribute("clientes", clienteService.listaClientes());
         model.addAttribute("paginaActiva", "clientes");
-        return "clientes/lista";
+        model.addAttribute("clientes", clienteService.listarClientes());
+        return "admin/clientes/lista";
     }
 
-    @GetMapping("/clientes/nuevo")
-    public String mostrarFormularioNuevoCliente(Model model) {
+    @GetMapping("/nuevo")
+    public String mostrarFormularioNuevo(Model model) {
+        model.addAttribute("paginaActiva", "clientes");
         model.addAttribute("cliente", new Cliente());
-        model.addAttribute("paginaActiva", "clientes");
-        return "clientes/formulario";
+        return "admin/clientes/formulario";
     }
 
-    @GetMapping("/clientes/editar/{id}")
-    public String mostrarFormularioEditarCliente(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteService.buscarClientePorId(id).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
-        model.addAttribute("cliente", cliente);
-        return "clientes/formulario";
-    }
-
-    @PostMapping("/clientes/guardar")
-    public String guardarCliente(Cliente cliente) {
-        clienteService.guardarCliente(cliente);
-        return "redirect:/clientes";
-    }
-
-    @PostMapping("/clientes/eliminar/{id}")
-    public String eliminarCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/guardar")
+    public String guardarCliente(@ModelAttribute Cliente cliente, Model model) {
         try {
-            clienteService.eliminarCliente(id);
-            redirectAttributes.addFlashAttribute("mensajeExito", "Cliente eliminado correctamente.");
-        } catch (IllegalStateException e) {
-            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+            clienteService.guardarCliente(cliente);
+            return "redirect:/admin/clientes";
+        } catch (Exception e) {
+            model.addAttribute("paginaActiva", "clientes");
+            model.addAttribute("mensajeError", e.getMessage());
+            model.addAttribute("cliente", cliente);
+            return "admin/clientes/formulario";
         }
+    }
 
-        return "redirect:/clientes";
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Cliente cliente = clienteService.buscarClientePorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado."));
+
+        model.addAttribute("paginaActiva", "clientes");
+        model.addAttribute("cliente", cliente);
+        return "admin/clientes/formulario";
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarCliente(@PathVariable Long id) {
+        clienteService.eliminarCliente(id);
+        return "redirect:/admin/clientes";
     }
 }

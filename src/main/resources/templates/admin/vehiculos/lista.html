@@ -9,22 +9,13 @@
 <main class="page-container">
     <section class="page-header">
         <h1 class="page-title">Vehículos</h1>
+        <p class="page-subtitle">Gestión de vehículos</p>
     </section>
 
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
     <section class="toolbar">
-        <a th:href="@{/vehiculos/nuevo}" class="btn btn--primary">Nuevo vehículo</a>
-
-        <!-- PARA IMPLEMENTAR MÁS ADELANTE
-        <div class="toolbar__search">
-            <input type="text" placeholder="Buscar por marca, modelo o matricula">
-        </div>
-
-        <div class="toolbar__filter">
-            <select>
-                <option>Todos</option>
-            </select>
-        </div>
-        -->
+        <a th:href="@{/admin/vehiculos/nuevo}" class="btn btn--primary">Nuevo vehículo</a>
     </section>
 
     <section class="card">
@@ -44,22 +35,26 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${#lists.isEmpty(vehiculos)}">
+                    <td colspan="9">No hay vehículos registrados.</td>
+                </tr>
                 <tr th:each="vehiculo : ${vehiculos}">
-                    <td th:text="${vehiculo.idVehiculo}"></td>
-                    <td th:text="${vehiculo.matricula}"></td>
-                    <td th:text="${vehiculo.marca}"></td>
-                    <td th:text="${vehiculo.modelo}"></td>
-                    <td th:text="${vehiculo.tipo}"></td>
-                    <td th:text="${vehiculo.precioDia}"></td>
-                    <td th:text="${vehiculo.estado}"></td>
-                    <td th:text="${#temporals.format(vehiculo.createdAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${vehiculo.idVehiculo}">1</td>
+                    <td th:text="${vehiculo.matricula}">1234ABC</td>
+                    <td th:text="${vehiculo.marca}">Toyota</td>
+                    <td th:text="${vehiculo.modelo}">Corolla</td>
+                    <td th:text="${vehiculo.tipo}">Turismo</td>
+                    <td th:text="${vehiculo.precioDia}">45.00</td>
+                    <td th:text="${vehiculo.estado}">DISPONIBLE</td>
+                    <td th:text="${vehiculo.createdAt != null ? #temporals.format(vehiculo.createdAt, 'yyyy-MM-dd') : '-'}">2026-03-27</td>
                     <td>
                         <div class="table-actions">
-                            <!-- Para añadir vista detalles
-                            <a href="#" class="icon-action">Ver</a>
-                            -->
-                            <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.idVehiculo})}" class="icon-action">Editar</a>
-                            <form th:action="@{/vehiculos/eliminar/{id}(id=${vehiculo.idVehiculo})}" method="post" class="inline-form">
+                            <a th:href="@{/admin/vehiculos/editar/{id}(id=${vehiculo.idVehiculo})}" class="icon-action">Editar</a>
+
+                            <form th:action="@{/admin/vehiculos/eliminar/{id}(id=${vehiculo.idVehiculo})}"
+                                  method="post"
+                                  class="inline-form"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este vehículo?');">
                                 <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
                             </form>
                         </div>

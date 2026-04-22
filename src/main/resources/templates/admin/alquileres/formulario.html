@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Nuevo alquiler')}"></head>
+<head th:replace="~{fragments/head :: head('Formulario alquiler')}"></head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
@@ -12,30 +12,32 @@
             th:text="${alquiler.idAlquiler != null} ? 'Editar alquiler' : 'Nuevo alquiler'">
             Formulario alquiler
         </h1>
-        <p class="page-subtitle">Completa los datos del alquiler</p>
+        <p class="page-subtitle">Gestión administrativa de alquileres</p>
     </section>
 
     <div th:replace="~{fragments/messages :: messages}"></div>
 
-    <section class="card form-card">
+    <section class="card">
         <div class="card__body">
-            <form th:action="@{/alquileres/guardar}" th:object="${alquiler}" method="post" class="form-grid">
+            <form th:action="@{/admin/alquileres/guardar}" th:object="${alquiler}" method="post" class="form-layout">
+
+                <input type="hidden" th:field="*{idAlquiler}">
 
                 <div class="form-group">
                     <label for="cliente">Cliente</label>
-                    <select id="cliente" th:field="*{cliente.idCliente}" required>
-                        <option value="">Selecciona un cliente</option>
+                    <select id="cliente" th:field="*{cliente.idCliente}" class="form-control" required>
+                        <option value="">Seleccione un cliente</option>
                         <option th:each="cliente : ${clientes}"
                                 th:value="${cliente.idCliente}"
-                                th:text="${cliente.nombre + ' ' + cliente.apellidos}">
+                                th:text="${cliente.nombre + ' ' + cliente.apellidos + ' - ' + cliente.dni}">
                         </option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="vehiculo">Vehículo</label>
-                    <select id="vehiculo" th:field="*{vehiculo.idVehiculo}" required>
-                        <option value="">Selecciona un vehículo</option>
+                    <select id="vehiculo" th:field="*{vehiculo.idVehiculo}" class="form-control" required>
+                        <option value="">Seleccione un vehículo</option>
                         <option th:each="vehiculo : ${vehiculos}"
                                 th:value="${vehiculo.idVehiculo}"
                                 th:text="${vehiculo.matricula + ' - ' + vehiculo.marca + ' ' + vehiculo.modelo}">
@@ -45,33 +47,28 @@
 
                 <div class="form-group">
                     <label for="fechaInicio">Fecha de inicio</label>
-                    <input id="fechaInicio" type="date" th:field="*{fechaInicio}" required>
+                    <input id="fechaInicio" type="date" th:field="*{fechaInicio}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="fechaFin">Fecha de fin</label>
-                    <input id="fechaFin" type="date" th:field="*{fechaFin}" required>
+                    <input id="fechaFin" type="date" th:field="*{fechaFin}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="estado">Estado</label>
-                    <select id="estado" th:field="*{estado}" required>
-                        <option value="">Selecciona un estado</option>
-                        <option th:each="estado : ${estadosAlquiler}"
+                    <select id="estado" th:field="*{estado}" class="form-control" required>
+                        <option th:each="estado : ${estados}"
                                 th:value="${estado}"
-                                th:text="${#strings.replace(estado, '_', ' ')}">
+                                th:text="${estado}">
                         </option>
                     </select>
                 </div>
 
                 <div class="form-actions">
-                    <a th:href="@{/alquileres}" class="btn btn--outline">Cancelar</a>
-                    <button type="submit" class="btn btn--primary"
-                            th:text="${alquiler.idAlquiler != null} ? 'Guardar cambios' : 'Guardar alquiler'">
-                        Guardar alquiler
-                    </button>
+                    <button type="submit" class="btn btn--primary">Guardar</button>
+                    <a th:href="@{/admin/alquileres}" class="btn btn--outline">Cancelar</a>
                 </div>
-
             </form>
         </div>
     </section>

@@ -4,10 +4,18 @@ import com.code065.alquilervehiculos.model.Alquiler;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
 
-    boolean existsByCliente_IdCliente(Long idCliente);
+    List<Alquiler> findByCliente_IdCliente(Long idCliente);
 
-    boolean existsByVehiculo_IdVehiculo(Long idVehiculo);
+    List<Alquiler> findByVehiculo_IdVehiculo(Long idVehiculo);
+
+    // 🔐 CLAVE: para seguridad USER
+    List<Alquiler> findByCliente_Usuario_Username(String username);
+
+    // útil para ADMIN filtrado
+    List<Alquiler> findByCliente_Dni(String dni);
 }

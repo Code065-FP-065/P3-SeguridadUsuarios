@@ -1,8 +1,9 @@
 package com.code065.alquilervehiculos.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -13,29 +14,25 @@ public class Cliente {
     @Column(name = "id_cliente")
     private Long idCliente;
 
-    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
-
-    @Column(name = "apellidos", nullable = false, length = 150)
     private String apellidos;
 
-    @Column(name = "dni", nullable = false, unique = true, length = 20)
+    @Column(unique = true)
     private String dni;
 
-    @Column(name = "telefono", length = 20)
     private String telefono;
 
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
+    @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public Cliente() {}
+    @OneToOne
+    @JoinColumn(name = "id_usuario", unique = true)
+    private Usuario usuario;
 
-    public Cliente(String nombre, String apellidos, String dni, String telefono, LocalDateTime createdAt) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.createdAt = createdAt;
+    @OneToMany(mappedBy = "cliente")
+    private List<Alquiler> alquileres = new ArrayList<>();
+
+    public Cliente() {
     }
 
     public Long getIdCliente() {
@@ -82,7 +79,19 @@ public class Cliente {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Alquiler> getAlquileres() {
+        return alquileres;
+    }
+
+    public void setAlquileres(List<Alquiler> alquileres) {
+        this.alquileres = alquileres;
     }
 }

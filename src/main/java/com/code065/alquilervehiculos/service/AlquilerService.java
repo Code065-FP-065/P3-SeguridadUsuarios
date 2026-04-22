@@ -11,6 +11,10 @@ public interface AlquilerService {
 
     Optional<Alquiler> buscarAlquilerPorId(Long id);
 
+    List<Alquiler> buscarPorCliente(Long idCliente);
+
+    List<Alquiler> buscarPorUsername(String username);
+
     Alquiler guardarAlquiler(Alquiler alquiler);
 
     void eliminarAlquiler(Long id);

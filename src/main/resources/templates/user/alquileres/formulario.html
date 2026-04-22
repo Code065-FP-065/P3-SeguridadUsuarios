@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nuevo alquiler')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Nuevo alquiler</h1>
+        <p class="page-subtitle">Solicita el alquiler de un vehículo</p>
+    </section>
+
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <section class="card">
+        <div class="card__body">
+            <form th:action="@{/user/alquileres/guardar}" th:object="${alquiler}" method="post" class="form-layout">
+
+                <div class="form-group">
+                    <label for="fechaInicio">Fecha de inicio</label>
+                    <input id="fechaInicio" type="date" th:field="*{fechaInicio}" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaFin">Fecha de fin</label>
+                    <input id="fechaFin" type="date" th:field="*{fechaFin}" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="vehiculo">Vehículo</label>
+                    <select id="vehiculo" th:field="*{vehiculo.idVehiculo}" class="form-control" required>
+                        <option value="">Seleccione un vehículo</option>
+                        <option th:each="vehiculo : ${vehiculos}"
+                                th:value="${vehiculo.idVehiculo}"
+                                th:text="${vehiculo.matricula + ' - ' + vehiculo.marca + ' ' + vehiculo.modelo + ' (' + vehiculo.precioDia + ' €/día)'}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Guardar alquiler</button>
+                    <a th:href="@{/user/mis-alquileres}" class="btn btn--outline">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

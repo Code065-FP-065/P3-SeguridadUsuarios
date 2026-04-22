@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Nuevo vehiculo')}"></head>
+<head th:replace="~{fragments/head :: head('Formulario vehículo')}"></head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
@@ -9,48 +9,50 @@
 <main class="page-container">
     <section class="page-header">
         <h1 class="page-title"
-            th:text="${vehiculo.idVehiculo != null} ? 'Editar vehiculo' : 'Nuevo vehiculo'">
-            Formulario vehiculo
+            th:text="${vehiculo.idVehiculo != null} ? 'Editar vehículo' : 'Nuevo vehículo'">
+            Formulario vehículo
         </h1>
-        <p class="page-subtitle">Completa los datos del vehiculo</p>
+        <p class="page-subtitle">Alta y edición de vehículos</p>
     </section>
 
-    <section class="card form-card">
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <section class="card">
         <div class="card__body">
-            <form th:action="@{/vehiculos/guardar}" th:object="${vehiculo}" method="post" class="form-grid">
+            <form th:action="@{/admin/vehiculos/guardar}" th:object="${vehiculo}" method="post" class="form-layout">
 
                 <input type="hidden" th:field="*{idVehiculo}">
 
                 <div class="form-group">
                     <label for="matricula">Matrícula</label>
-                    <input id="matricula" type="text" th:field="*{matricula}" placeholder="Introduce la matrícula" required>
+                    <input id="matricula" type="text" th:field="*{matricula}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="marca">Marca</label>
-                    <input id="marca" type="text" th:field="*{marca}" placeholder="Introduce la marca" required>
+                    <input id="marca" type="text" th:field="*{marca}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="modelo">Modelo</label>
-                    <input id="modelo" type="text" th:field="*{modelo}" placeholder="Introduce el modelo" required>
+                    <input id="modelo" type="text" th:field="*{modelo}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="tipo">Tipo</label>
-                    <input id="tipo" type="text" th:field="*{tipo}" placeholder="Introduce el tipo" required>
+                    <input id="tipo" type="text" th:field="*{tipo}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="precioDia">Precio por día</label>
-                    <input id="precioDia" type="number" step="0.01" min="0" th:field="*{precioDia}" placeholder="0.00" required>
+                    <input id="precioDia" type="number" step="0.01" th:field="*{precioDia}" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="estado">Estado</label>
-                    <select id="estado" th:field="*{estado}" required>
-                        <option value="">Selecciona un estado</option>
-                        <option th:each="estado : ${estadosVehiculo}"
+                    <select id="estado" th:field="*{estado}" class="form-control" required>
+                        <option value="">Seleccione un estado</option>
+                        <option th:each="estado : ${estados}"
                                 th:value="${estado}"
                                 th:text="${estado}">
                         </option>
@@ -58,10 +60,9 @@
                 </div>
 
                 <div class="form-actions">
-                    <a th:href="@{/vehiculos}" class="btn btn--outline">Cancelar</a>
-                    <button type="submit" class="btn btn--primary">Guardar vehículo</button>
+                    <button type="submit" class="btn btn--primary">Guardar</button>
+                    <a th:href="@{/admin/vehiculos}" class="btn btn--outline">Cancelar</a>
                 </div>
-
             </form>
         </div>
     </section>

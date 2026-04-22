@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Mis alquileres')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Mis alquileres</h1>
+        <p class="page-subtitle">Consulta de tus alquileres</p>
+    </section>
+
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <section class="toolbar">
+        <a th:href="@{/user/alquileres/nuevo}" class="btn btn--primary">Nuevo alquiler</a>
+    </section>
+
+    <section class="card">
+        <div class="card__body card__body--no-padding">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vehículo</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Días</th>
+                    <th>Precio/día</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(alquileres)}">
+                    <td colspan="8">No tienes alquileres registrados.</td>
+                </tr>
+                <tr th:each="alquiler : ${alquileres}">
+                    <td th:text="${alquiler.idAlquiler}"></td>
+                    <td th:text="${alquiler.vehiculo.matricula + ' - ' + alquiler.vehiculo.modelo}"></td>
+                    <td th:text="${alquiler.fechaInicio}"></td>
+                    <td th:text="${alquiler.fechaFin}"></td>
+                    <td th:text="${alquiler.dias}"></td>
+                    <td th:text="${alquiler.precioDiaAplicado}"></td>
+                    <td th:text="${alquiler.total}"></td>
+                    <td th:text="${alquiler.estado}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -5,12 +5,10 @@ import com.code065.alquilervehiculos.model.Vehiculo;
 import com.code065.alquilervehiculos.service.VehiculoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin/vehiculos")
 public class VehiculoViewController {
 
     private final VehiculoService vehiculoService;
@@ -19,45 +17,49 @@ public class VehiculoViewController {
         this.vehiculoService = vehiculoService;
     }
 
-    @GetMapping("/vehiculos")
+    @GetMapping
     public String listarVehiculos(Model model) {
+        model.addAttribute("paginaActiva", "vehiculos");
         model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
-        model.addAttribute("paginaActiva", "vehiculos");
-        return "vehiculos/lista";
+        return "admin/vehiculos/lista";
     }
 
-    @GetMapping("/vehiculos/nuevo")
-    public String mostrarFormularioNuevoVehiculo(Model model) {
+    @GetMapping("/nuevo")
+    public String mostrarFormularioNuevo(Model model) {
+        model.addAttribute("paginaActiva", "vehiculos");
         model.addAttribute("vehiculo", new Vehiculo());
-        model.addAttribute("estadosVehiculo", EstadoVehiculo.values());
-        model.addAttribute("paginaActiva", "vehiculos");
-        return "vehiculos/formulario";
+        model.addAttribute("estados", EstadoVehiculo.values());
+        return "admin/vehiculos/formulario";
     }
 
-    @GetMapping("/vehiculos/editar/{id}")
-    public String editarFormularioEditarVehiculo(@PathVariable Long id, Model model) {
-        Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(id).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado con id: " + id));
-        model.addAttribute("vehiculo", vehiculo);
-        model.addAttribute("estadosVehiculo", EstadoVehiculo.values());
-        model.addAttribute("paginaActiva", "vehiculos");
-        return "vehiculos/formulario";
-    }
-
-    @PostMapping("/vehiculos/guardar")
-    public String guardarVehiculo(Vehiculo vehiculo) {
-        vehiculoService.guardarVehiculo(vehiculo);
-        return "redirect:/vehiculos";
-    }
-
-    @PostMapping("vehiculos/eliminar/{id}")
-    public String eliminarVehiculo(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/guardar")
+    public String guardarVehiculo(@ModelAttribute Vehiculo vehiculo, Model model) {
         try {
-            vehiculoService.eliminarVehiculo(id);
-            redirectAttributes.addFlashAttribute("mensajeExito", "Vehículo eliminado correctamente.");
-        } catch (IllegalStateException e) {
-            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+            vehiculoService.guardarVehiculo(vehiculo);
+            return "redirect:/admin/vehiculos";
+        } catch (Exception e) {
+            model.addAttribute("paginaActiva", "vehiculos");
+            model.addAttribute("mensajeError", e.getMessage());
+            model.addAttribute("vehiculo", vehiculo);
+            model.addAttribute("estados", EstadoVehiculo.values());
+            return "admin/vehiculos/formulario";
         }
+    }
 
-        return "redirect:/vehiculos";
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vehículo no encontrado."));
+
+        model.addAttribute("paginaActiva", "vehiculos");
+        model.addAttribute("vehiculo", vehiculo);
+        model.addAttribute("estados", EstadoVehiculo.values());
+        return "admin/vehiculos/formulario";
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarVehiculo(@PathVariable Long id) {
+        vehiculoService.eliminarVehiculo(id);
+        return "redirect:/admin/vehiculos";
     }
 }
