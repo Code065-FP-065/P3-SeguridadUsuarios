@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head :: head('Clientes')}"></head>
 <body>
 
@@ -14,7 +14,7 @@
     <div th:replace="~{fragments/messages :: messages}"></div>
 
     <section class="toolbar">
-        <a th:href="@{/clientes/nuevo}" class="btn btn--primary">Nuevo cliente</a>
+        <a th:href="@{/admin/clientes/nuevo}" class="btn btn--primary" sec:authorize="hasRole('ADMIN')">Nuevo cliente</a>
 
         <!-- PARA IMPLEMENTAR MÁS ADELANTE
         <div class="toolbar__search">
@@ -56,10 +56,13 @@
                             <!-- Para añadir vista detalles
                             <a href="#" class="icon-action">Ver</a>
                             -->
-                            <a th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}" class="icon-action">Editar</a>
-                            <form th:action="@{/clientes/eliminar/{id}(id=${cliente.idCliente})}" method="post" class="inline-form">
-                                <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
-                            </form>
+                            <span sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/admin/clientes/editar/{id}(id=${cliente.idCliente})}" class="icon-action">Editar</a>
+                                <form th:action="@{/admin/clientes/eliminar/{id}(id=${cliente.idCliente})}" method="post" class="inline-form">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
+                                </form>
+                            </span>
                         </div>
                     </td>
                 </tr>

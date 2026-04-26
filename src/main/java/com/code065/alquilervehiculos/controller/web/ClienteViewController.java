@@ -18,34 +18,34 @@ public class ClienteViewController {
         this.clienteService = clienteService;
     }
 
-    @GetMapping("/clientes")
+    @GetMapping("/user/clientes")
     public String listarClientes(Model model) {
         model.addAttribute("clientes", clienteService.listaClientes());
         model.addAttribute("paginaActiva", "clientes");
         return "clientes/lista";
     }
 
-    @GetMapping("/clientes/nuevo")
+    @GetMapping("/admin/clientes/nuevo")
     public String mostrarFormularioNuevoCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
         model.addAttribute("paginaActiva", "clientes");
         return "clientes/formulario";
     }
 
-    @GetMapping("/clientes/editar/{id}")
+    @GetMapping("/admin/clientes/editar/{id}")
     public String mostrarFormularioEditarCliente(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.buscarClientePorId(id).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
         model.addAttribute("cliente", cliente);
         return "clientes/formulario";
     }
 
-    @PostMapping("/clientes/guardar")
+    @PostMapping("/admin/clientes/guardar")
     public String guardarCliente(Cliente cliente) {
         clienteService.guardarCliente(cliente);
-        return "redirect:/clientes";
+        return "redirect:/user/clientes";
     }
 
-    @PostMapping("/clientes/eliminar/{id}")
+    @PostMapping("/admin/clientes/eliminar/{id}")
     public String eliminarCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             clienteService.eliminarCliente(id);
@@ -54,6 +54,6 @@ public class ClienteViewController {
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
         }
 
-        return "redirect:/clientes";
+        return "redirect:/user/clientes";
     }
 }

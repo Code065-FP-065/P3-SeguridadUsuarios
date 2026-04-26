@@ -1,18 +1,18 @@
-<nav th:fragment="nav" class="main-nav" xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="nav" class="main-nav" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="main-nav__container">
-        <a th:href="@{/}"
+        <a th:href="@{/user/dashboard}"
            th:classappend="${paginaActiva == 'dashboard'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">Inicio</a>
 
-        <a th:href="@{/clientes}"
+        <a th:href="@{/user/clientes}"
            th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">Clientes</a>
 
-        <a th:href="@{/vehiculos}"
+        <a th:href="@{/user/vehiculos}"
            th:classappend="${paginaActiva == 'vehiculos'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">Vehículos</a>
 
-        <a th:href="@{/alquileres}"
+        <a th:href="@{/user/alquileres}"
            th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">Alquileres</a>
     </div>

@@ -22,6 +22,11 @@ public class HomeViewController {
     }
 
     @GetMapping("/")
+    public String redireccionDashboard() {
+        return "redirect:/user/dashboard";
+    }
+
+    @GetMapping("/user/dashboard")
     public String mostrarDashboard(Model model) {
         model.addAttribute("totalClientes", clienteService.listaClientes().size());
         model.addAttribute("totalVehiculos", vehiculoService.listarVehiculos().size());
@@ -31,11 +36,7 @@ public class HomeViewController {
     }
 
     @GetMapping("/dashboard")
-    public String mostrarDashboardAlternativo(Model model) {
-        model.addAttribute("totalClientes", clienteService.listaClientes().size());
-        model.addAttribute("totalVehiculos", vehiculoService.listarVehiculos().size());
-        model.addAttribute("totalAlquileres", alquilerService.listarAlquileres().size());
-        model.addAttribute("paginaActiva", "dashboard");
-        return "dashboard/index";
+    public String mostrarDashboardAlternativo() {
+        return "redirect:/user/dashboard";
     }
 }

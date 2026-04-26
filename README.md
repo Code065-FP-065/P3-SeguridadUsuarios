@@ -71,41 +71,6 @@ El proyecto sigue una estructura por capas:
 - **templates**: vistas Thymeleaf
 - **static**: estilos CSS y recursos estáticos
 
----
-
-## Estructura de carpetas
-
-```text
-AlquilerVehiculos/
-├── docker/
-│   └── mysql/
-│       └── init/
-│           ├── 01_schema.sql
-│           └── 02_data.sql
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com/code065/alquilervehiculos/
-│       │       ├── controller/
-│       │       ├── model/
-│       │       ├── repository/
-│       │       └── service/
-│       └── resources/
-│           ├── static/
-│           ├── templates/
-│           ├── application.properties
-│           ├── application-local.properties
-│           ├── application-docker.properties
-│           └── application-container.properties
-├── compose.yaml
-├── Dockerfile
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
-└── README.md
-```
-
----
 
 ## Base de datos
 

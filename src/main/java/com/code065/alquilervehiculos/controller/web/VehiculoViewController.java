@@ -19,14 +19,14 @@ public class VehiculoViewController {
         this.vehiculoService = vehiculoService;
     }
 
-    @GetMapping("/vehiculos")
+    @GetMapping("/user/vehiculos")
     public String listarVehiculos(Model model) {
         model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
         model.addAttribute("paginaActiva", "vehiculos");
         return "vehiculos/lista";
     }
 
-    @GetMapping("/vehiculos/nuevo")
+    @GetMapping("/admin/vehiculos/nuevo")
     public String mostrarFormularioNuevoVehiculo(Model model) {
         model.addAttribute("vehiculo", new Vehiculo());
         model.addAttribute("estadosVehiculo", EstadoVehiculo.values());
@@ -34,7 +34,7 @@ public class VehiculoViewController {
         return "vehiculos/formulario";
     }
 
-    @GetMapping("/vehiculos/editar/{id}")
+    @GetMapping("/admin/vehiculos/editar/{id}")
     public String editarFormularioEditarVehiculo(@PathVariable Long id, Model model) {
         Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(id).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado con id: " + id));
         model.addAttribute("vehiculo", vehiculo);
@@ -43,13 +43,13 @@ public class VehiculoViewController {
         return "vehiculos/formulario";
     }
 
-    @PostMapping("/vehiculos/guardar")
+    @PostMapping("/admin/vehiculos/guardar")
     public String guardarVehiculo(Vehiculo vehiculo) {
         vehiculoService.guardarVehiculo(vehiculo);
-        return "redirect:/vehiculos";
+        return "redirect:/user/vehiculos";
     }
 
-    @PostMapping("vehiculos/eliminar/{id}")
+    @PostMapping("/admin/vehiculos/eliminar/{id}")
     public String eliminarVehiculo(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             vehiculoService.eliminarVehiculo(id);
@@ -58,6 +58,6 @@ public class VehiculoViewController {
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
         }
 
-        return "redirect:/vehiculos";
+        return "redirect:/user/vehiculos";
     }
 }

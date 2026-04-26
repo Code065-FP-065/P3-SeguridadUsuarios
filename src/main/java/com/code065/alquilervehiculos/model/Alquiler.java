@@ -45,9 +45,13 @@ public class Alquiler {
     @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+
     public Alquiler() {}
 
-    public Alquiler(LocalDate fechaInicio, LocalDate fechaFin, EstadoAlquiler estado, Integer dias, BigDecimal precioDiaAplicado, BigDecimal total, Cliente cliente, Vehiculo vehiculo) {
+    public Alquiler(LocalDate fechaInicio, LocalDate fechaFin, EstadoAlquiler estado, Integer dias, BigDecimal precioDiaAplicado, BigDecimal total, Cliente cliente, Vehiculo vehiculo, Usuario usuario) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
@@ -56,6 +60,7 @@ public class Alquiler {
         this.total = total;
         this.cliente = cliente;
         this.vehiculo = vehiculo;
+        this.usuario = usuario;
     }
 
     public Long getIdAlquiler() {
@@ -136,5 +141,13 @@ public class Alquiler {
 
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

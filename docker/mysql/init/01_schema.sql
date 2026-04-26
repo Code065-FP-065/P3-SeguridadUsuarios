@@ -36,6 +36,18 @@ CREATE TABLE vehiculos (
 );
 
 -- ==============================================================================
+-- TABLA: usuarios
+-- ==============================================================================
+CREATE TABLE usuarios (
+    id_usuario BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    nombre VARCHAR(150) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol ENUM ('ADMIN', 'USER') NOT NULL DEFAULT 'USER',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ==============================================================================
 -- TABLA: alquiler
 -- ==============================================================================
 CREATE TABLE alquileres (
@@ -50,9 +62,11 @@ CREATE TABLE alquileres (
     
     id_cliente BIGINT NOT NULL,
     id_vehiculo BIGINT NOT NULL,
+    id_usuario BIGINT NOT NULL,
     
     CONSTRAINT fk_alquier_cliente FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
     CONSTRAINT fk_alquiler_vehiculo FOREIGN KEY (id_vehiculo) REFERENCES vehiculos(id_vehiculo),
+    CONSTRAINT fk_alquiler_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
     
     CONSTRAINT chk_alquiler_dias CHECK (dias > 0),
     CONSTRAINT chk_alquiler_precio_dia CHECK (precio_dia_aplicado >= 0),

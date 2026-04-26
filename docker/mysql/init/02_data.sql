@@ -11,9 +11,14 @@ VALUES
 ('1234ABC', 'Toyota', 'Corolla', 'Turismo', 45.00, 'DISPONIBLE'),
 ('5678DEF', 'Ford', 'Transit', 'Furgoneta', 80.00, 'DISPONIBLE');
 
+INSERT INTO usuarios (username, nombre, password, rol)
+VALUES
+('admin', 'Administrador', '{noop}admin123', 'ADMIN'),
+('user', 'Usuario Demo', '{noop}user123', 'USER');
+
 INSERT INTO alquileres (
-    fecha_inicio, fecha_fin, estado, dias, precio_dia_aplicado, total, id_cliente, id_vehiculo
+    fecha_inicio, fecha_fin, estado, dias, precio_dia_aplicado, total, id_cliente, id_vehiculo, id_usuario
 )
 VALUES
-('2026-04-10', '2026-04-12', 'FINALIZADO', 3, 45.00, 135.00, 1, 1),
-('2026-04-15', '2026-04-20', 'EN_CURSO', 2, 80.00, 160.00, 2, 2);
+('2026-04-10', '2026-04-12', 'FINALIZADO', 3, 45.00, 135.00, 1, 1, 1),
+('2026-04-15', '2026-04-20', 'EN_CURSO', 2, 80.00, 160.00, 2, 2, 1);
