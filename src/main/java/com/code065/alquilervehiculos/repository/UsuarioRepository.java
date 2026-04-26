@@ -1,18 +1,19 @@
 package com.code065.alquilervehiculos.repository;
 
 import com.code065.alquilervehiculos.model.Rol;
+import com.code065.alquilervehiculos.model.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UsuarioRepository {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    Optional<Rol> findByUsername(String username);
+    Optional<Usuario> findByUsername(String username);
 
-    Optional<Rol> findByEmail(String email);
+    Optional<Usuario> findByEmail(String email);
 
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
-
 
 }
