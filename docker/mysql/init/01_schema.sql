@@ -77,8 +77,8 @@ CREATE TABLE vehiculos (
 -- ==============================================================================
 CREATE TABLE alquileres (
 	id_alquiler BIGINT AUTO_INCREMENT PRIMARY KEY,
-    fecha_inicio DATETIME NOT NULL,
-    fecha_fin DATETIME NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
     estado ENUM ('PENDIENTE', 'EN_CURSO', 'FINALIZADO') NOT NULL DEFAULT 'PENDIENTE',
     dias INT NOT NULL,
     precio_dia_aplicado DECIMAL(10,2) NOT NULL,
