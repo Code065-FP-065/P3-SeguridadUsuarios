@@ -2,15 +2,18 @@
      class="main-nav"
      xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <div class="main-nav__container">
 
+        <!-- INICIO -->
         <a th:href="@{/}"
            th:classappend="${paginaActiva == 'dashboard'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Inicio
         </a>
 
-        <!-- SOLO ADMIN -->
+        <!-- ================= ADMIN ================= -->
+
         <a sec:authorize="hasRole('ADMIN')"
            th:href="@{/admin/clientes}"
            th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
@@ -32,7 +35,16 @@
             Alquileres
         </a>
 
-        <!-- USER Y ADMIN -->
+        <!-- 🔴 NUEVO ALQUILER PARA ADMIN -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/alquileres/nuevo}"
+           th:classappend="${paginaActiva == 'nuevo-alquiler-admin'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Nuevo alquiler
+        </a>
+
+        <!-- ================= USER ================= -->
+
         <a sec:authorize="hasAnyRole('USER','ADMIN')"
            th:href="@{/user/mis-alquileres}"
            th:classappend="${paginaActiva == 'mis-alquileres'} ? ' main-nav__link--active' : ''"
@@ -40,11 +52,5 @@
             Mis alquileres
         </a>
 
-        <a sec:authorize="hasAnyRole('USER','ADMIN')"
-           th:href="@{/user/alquileres/nuevo}"
-           th:classappend="${paginaActiva == 'nuevo-alquiler'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">
-            Nuevo alquiler
-        </a>
     </div>
 </nav>

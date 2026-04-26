@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="es"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragments/head :: head('Mis alquileres')}"></head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Gestión de alquileres')}"></head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
 <div th:replace="~{fragments/nav :: nav}"></div>
 
 <main class="page-container">
+
     <section class="page-header">
-        <h1 class="page-title">Mis alquileres</h1>
-        <p class="page-subtitle">Consulta de tus alquileres</p>
+        <h1 class="page-title">Gestión de alquileres</h1>
+        <p class="page-subtitle">Listado completo de alquileres del sistema</p>
     </section>
 
     <div th:replace="~{fragments/messages :: messages}"></div>
 
     <section class="toolbar">
-        <a th:href="@{/user/alquileres/nuevo}" class="btn btn--primary">Nuevo alquiler</a>
+        <a th:href="@{/admin/alquileres/nuevo}" class="btn btn--primary">
+            Nuevo alquiler
+        </a>
     </section>
 
     <section class="card">
@@ -26,6 +27,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Cliente</th>
                     <th>Vehículo</th>
                     <th>Fecha inicio</th>
                     <th>Fecha fin</th>
@@ -33,26 +35,66 @@
                     <th>Precio/día</th>
                     <th>Total</th>
                     <th>Estado</th>
+                    <th>Fecha alta</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <tr th:if="${#lists.isEmpty(alquileres)}">
-                    <td colspan="8">No tienes alquileres registrados.</td>
+                    <td colspan="11">No hay alquileres registrados.</td>
                 </tr>
+
                 <tr th:each="alquiler : ${alquileres}">
-                    <td th:text="${alquiler.idAlquiler}"></td>
-                    <td th:text="${alquiler.vehiculo.matricula + ' - ' + alquiler.vehiculo.modelo}"></td>
-                    <td th:text="${alquiler.fechaInicio}"></td>
-                    <td th:text="${alquiler.fechaFin}"></td>
-                    <td th:text="${alquiler.dias}"></td>
-                    <td th:text="${alquiler.precioDiaAplicado}"></td>
-                    <td th:text="${alquiler.total}"></td>
-                    <td th:text="${alquiler.estado}"></td>
+                    <td th:text="${alquiler.idAlquiler}">1</td>
+
+                    <td th:text="${alquiler.cliente != null ? alquiler.cliente.nombre + ' ' + alquiler.cliente.apellidos : 'Sin cliente'}">
+                        Juan Pérez
+                    </td>
+
+                    <td th:text="${alquiler.vehiculo != null ? alquiler.vehiculo.matricula + ' - ' + alquiler.vehiculo.modelo : 'Sin vehículo'}">
+                        1234ABC - Corolla
+                    </td>
+
+                    <td th:text="${alquiler.fechaInicio}">2026-03-27</td>
+                    <td th:text="${alquiler.fechaFin}">2026-03-30</td>
+                    <td th:text="${alquiler.dias}">3</td>
+                    <td th:text="${alquiler.precioDiaAplicado}">45.00</td>
+                    <td th:text="${alquiler.total}">135.00</td>
+                    <td th:text="${alquiler.estado}">PENDIENTE</td>
+
+                    <td th:text="${alquiler.createdAt != null ? #temporals.format(alquiler.createdAt, 'yyyy-MM-dd') : '-'}">
+                        2026-03-27
+                    </td>
+
+                    <td>
+                        <div class="table-actions">
+                            <a th:href="@{/admin/alquileres/editar/{id}(id=${alquiler.idAlquiler})}"
+                               class="icon-action">
+                                Editar
+                            </a>
+
+                            <form th:action="@{/admin/alquileres/eliminar/{id}(id=${alquiler.idAlquiler})}"
+                                  method="post"
+                                  class="inline-form"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este alquiler?');">
+
+                                <input type="hidden"
+                                       th:name="${_csrf.parameterName}"
+                                       th:value="${_csrf.token}" />
+
+                                <button type="submit" class="icon-action icon-action--danger">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
+
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

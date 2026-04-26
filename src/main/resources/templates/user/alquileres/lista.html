@@ -7,20 +7,28 @@
 <div th:replace="~{fragments/nav :: nav}"></div>
 
 <main class="page-container">
+
+    <!-- CABECERA -->
     <section class="page-header">
         <h1 class="page-title">Mis alquileres</h1>
         <p class="page-subtitle">Consulta de alquileres asociados a tu cuenta</p>
     </section>
 
+    <!-- MENSAJES -->
     <div th:replace="~{fragments/messages :: messages}"></div>
 
+    <!-- BOTÓN NUEVO (USER) -->
     <section class="toolbar">
-        <a th:href="@{/user/alquileres/nuevo}" class="btn btn--primary">Nuevo alquiler</a>
+        <a th:href="@{/user/alquileres/nuevo}" class="btn btn--primary">
+            Nuevo alquiler
+        </a>
     </section>
 
+    <!-- TABLA -->
     <section class="card">
         <div class="card__body card__body--no-padding">
             <table class="table">
+
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -34,25 +42,36 @@
                     <th>Fecha alta</th>
                 </tr>
                 </thead>
+
                 <tbody>
+
+                <!-- SIN DATOS -->
                 <tr th:if="${#lists.isEmpty(alquileres)}">
                     <td colspan="9">No tienes alquileres registrados.</td>
                 </tr>
+
+                <!-- DATOS -->
                 <tr th:each="alquiler : ${alquileres}">
                     <td th:text="${alquiler.idAlquiler}">1</td>
-                    <td th:text="${alquiler.vehiculo.matricula + ' - ' + alquiler.vehiculo.modelo}">1234ABC - Corolla</td>
+                    <td th:text="${alquiler.vehiculo.matricula + ' - ' + alquiler.vehiculo.modelo}">
+                        1234ABC - Corolla
+                    </td>
                     <td th:text="${alquiler.fechaInicio}">2026-03-27</td>
                     <td th:text="${alquiler.fechaFin}">2026-03-30</td>
                     <td th:text="${alquiler.dias}">3</td>
                     <td th:text="${alquiler.precioDiaAplicado}">45.00</td>
                     <td th:text="${alquiler.total}">135.00</td>
                     <td th:text="${alquiler.estado}">PENDIENTE</td>
-                    <td th:text="${#temporals.format(alquiler.createdAt, 'yyyy-MM-dd')}">2026-03-27</td>
+                    <td th:text="${#temporals.format(alquiler.createdAt, 'yyyy-MM-dd')}">
+                        2026-03-27
+                    </td>
                 </tr>
+
                 </tbody>
             </table>
         </div>
     </section>
+
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
