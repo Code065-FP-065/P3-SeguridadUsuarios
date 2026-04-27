@@ -1,6 +1,5 @@
 package com.code065.alquilervehiculos.controller.web;
 
-
 import com.code065.alquilervehiculos.model.Alquiler;
 import com.code065.alquilervehiculos.model.Cliente;
 import com.code065.alquilervehiculos.model.EstadoAlquiler;
@@ -10,50 +9,52 @@ import com.code065.alquilervehiculos.service.ClienteService;
 import com.code065.alquilervehiculos.service.VehiculoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 
 @Controller
-public class AlquilerViewController {
+@RequestMapping("/admin/alquileres")
+public class AdminAlquilerViewController {
 
     private final AlquilerService alquilerService;
     private final ClienteService clienteService;
     private final VehiculoService vehiculoService;
 
-    public AlquilerViewController(AlquilerService alquilerService, ClienteService clienteService, VehiculoService vehiculoService) {
+    public AdminAlquilerViewController(AlquilerService alquilerService, ClienteService clienteService, VehiculoService vehiculoService) {
         this.alquilerService = alquilerService;
         this.clienteService = clienteService;
         this.vehiculoService = vehiculoService;
     }
 
-    @GetMapping("/alquileres")
+    @GetMapping
     public String listarAlquileres(Model model) {
         model.addAttribute("alquileres", alquilerService.listarAlquileres());
         model.addAttribute("paginaActiva", "alquileres");
+        model.addAttribute("rutaNuevoAlquler", "/admin/alquileres/nuevo");
+        model.addAttribute("modoAdmin", true);
         return "alquileres/lista";
     }
 
-    @GetMapping("/alquileres/nuevo")
+    @GetMapping("/nuevo")
     public String mostrarFormularioNuevoAlquiler(Model model) {
         Alquiler alquiler = new Alquiler();
         alquiler.setCliente(new Cliente());
         alquiler.setVehiculo(new Vehiculo());
-
+        cargarDatosFormulario(model);
         model.addAttribute("alquiler", alquiler);
-        model.addAttribute("clientes", clienteService.listaClientes());
-        model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
-        model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
-        model.addAttribute("paginaActiva", "alquileres");
+        model.addAttribute("formAction", "/admin/alquileres/guardar");
+        model.addAttribute("cancelUrl", "/admin/alquileres");
+        model.addAttribute("modoAdmin", true);
         return "alquileres/formulario";
     }
 
-    @GetMapping("/alquileres/editar/{id}")
+    @GetMapping("/editar/{id}")
     public String mostrarFormularioEditarAlquiler(@PathVariable Long id, Model model) {
-        Alquiler alquiler = alquilerService.buscarAlquilerPorId(id).orElseThrow(() -> new IllegalArgumentException("Alquiler no encontrado con id: " + id));
+        Alquiler alquiler = alquilerService.buscarAlquilerPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Alquiler no encontrado con id: " + id));
+
         if (alquiler.getCliente() == null) {
             alquiler.setCliente(new Cliente());
         }
@@ -62,36 +63,45 @@ public class AlquilerViewController {
             alquiler.setVehiculo(new Vehiculo());
         }
 
+        cargarDatosFormulario(model);
         model.addAttribute("alquiler", alquiler);
-        model.addAttribute("clientes", clienteService.listaClientes());
-        model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
-        model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
-        model.addAttribute("paginaActiva", "alquileres");
+        model.addAttribute("formAction", "/admin/alquileres/guardar");
+        model.addAttribute("cancelUrl", "/admin/alquileres");
+        model.addAttribute("modoAdmin", true);
+
         return "alquileres/formulario";
     }
 
-    @PostMapping("/alquileres/guardar")
+    @PostMapping("/guardar")
     public String guardarAlquiler(Alquiler alquiler, Model model) {
+
         if (alquiler.getFechaInicio() == null || alquiler.getFechaFin() == null) {
+            cargarDatosFormulario(model);
+            model.addAttribute("alquiler", alquiler);
+            model.addAttribute("formAction", "/admin/alquileres/guardar");
+            model.addAttribute("cancelUrl", "/admin/alquileres");
+            model.addAttribute("modoAdmin", true);
             model.addAttribute("mensajeError", "Debes indicar la fecha de inicio y la fecha de fin.");
-            model.addAttribute("clientes", clienteService.listaClientes());
-            model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
-            model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
             return "alquileres/formulario";
         }
 
         long diasCalculados = ChronoUnit.DAYS.between(alquiler.getFechaInicio(), alquiler.getFechaFin());
 
         if (diasCalculados <= 0) {
+            cargarDatosFormulario(model);
+            model.addAttribute("alquiler", alquiler);
+            model.addAttribute("formAction", "/admin/alquileres/guardar");
+            model.addAttribute("cancelUrl", "/admin/alquileres");
+            model.addAttribute("modoAdmin", true);
             model.addAttribute("mensajeError", "La fecha de fin debe ser posterior a la fecha de inicio.");
-            model.addAttribute("clientes", clienteService.listaClientes());
-            model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
-            model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
             return "alquileres/formulario";
         }
 
-        Cliente cliente = clienteService.buscarClientePorId(alquiler.getCliente().getIdCliente()).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
-        Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(alquiler.getVehiculo().getIdVehiculo()).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado"));
+        Cliente cliente = clienteService.buscarClientePorId(alquiler.getCliente().getIdCliente())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+
+        Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(alquiler.getVehiculo().getIdVehiculo())
+                .orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado"));
 
         int dias = (int) diasCalculados;
         BigDecimal precioDiaAplicado = vehiculo.getPrecioDia();
@@ -104,12 +114,19 @@ public class AlquilerViewController {
         alquiler.setTotal(total);
 
         alquilerService.guardarAlquiler(alquiler);
-        return "redirect:/alquileres";
+        return "redirect:/admin/alquileres";
     }
 
-    @PostMapping("/alquileres/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarAlquiler(@PathVariable Long id) {
         alquilerService.eliminarAlquiler(id);
-        return "redirect:/alquileres";
+        return "redirect:/admin/alquileres";
+    }
+
+    private void cargarDatosFormulario(Model model) {
+        model.addAttribute("clientes", clienteService.listaClientes());
+        model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
+        model.addAttribute("estadosAlquiler", EstadoAlquiler.values());
+        model.addAttribute("paginaActiva", "alquileres");
     }
 }

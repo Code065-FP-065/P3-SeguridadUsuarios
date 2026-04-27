@@ -28,8 +28,15 @@
         </a>
 
         <!-- ADMIN y USER: pueden ver/interactuar con alquileres -->
-        <a sec:authorize="hasAnyRole('ADMIN','USER')"
-           th:href="@{/alquileres}"
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/alquileres}"
+           th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Alquileres
+        </a>
+
+        <a sec:authorize="hasRole('USER')"
+           th:href="@{/user/alquileres}"
            th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Alquileres
