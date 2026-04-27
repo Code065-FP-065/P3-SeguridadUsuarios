@@ -19,8 +19,8 @@ VALUES
 
 INSERT INTO usuarios (username, email, password_hash, enabled, id_rol)
 VALUES
-    ('admin', 'admin@alquilervehiculos.com', '$2a$10$7Q9I8HnJ3XW3oKQ6YAdVn.l6z9RAcBzEwjPzZDeeBDW8mxXvqce4W', TRUE, 1),
-    ('xavi', 'xavi@alquilervehiculos.com', '$2a$10$7Q9I8HnJ3XW3oKQ6YAdVn.l6z9RAcBzEwjPzZDeeBDW8mxXvqce4W', TRUE, 2);
+    ('admin', 'admin@alquilervehiculos.com', '$2a$10$0y9RDCziGEC2HVEnzFlXquKx67nLHM8H4EgJ0HIk1UyYx59lTC2TS', TRUE, 1),
+    ('xavi', 'xavi@alquilervehiculos.com', '$2a$10$Bi77gM1XSwsrpjKizdaOIOjfSjGdFWQRBIT.gKAcGsPBnK2J.HZRa', TRUE, 2);
 
 -- ==============================================================================
 -- DATOS INICIALES: clientes
