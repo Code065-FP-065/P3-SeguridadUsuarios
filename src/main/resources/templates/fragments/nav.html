@@ -1,19 +1,45 @@
-<nav th:fragment="nav" class="main-nav" xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="nav"
+     class="main-nav"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <div class="main-nav__container">
+
         <a th:href="@{/}"
            th:classappend="${paginaActiva == 'dashboard'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Inicio</a>
+           class="main-nav__link">
+            Inicio
+        </a>
 
-        <a th:href="@{/clientes}"
+        <!-- Menú visible solo para usuarios autenticados -->
+        <a sec:authorize="isAuthenticated()"
+           th:href="@{/clientes}"
            th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Clientes</a>
+           class="main-nav__link">
+            Clientes
+        </a>
 
-        <a th:href="@{/vehiculos}"
+        <a sec:authorize="isAuthenticated()"
+           th:href="@{/vehiculos}"
            th:classappend="${paginaActiva == 'vehiculos'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Vehículos</a>
+           class="main-nav__link">
+            Vehículos
+        </a>
 
-        <a th:href="@{/alquileres}"
+        <a sec:authorize="isAuthenticated()"
+           th:href="@{/alquileres}"
            th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
-           class="main-nav__link">Alquileres</a>
+           class="main-nav__link">
+            Alquileres
+        </a>
+
+        <!-- Enlace visible solo si NO hay sesión iniciada -->
+        <a sec:authorize="isAnonymous()"
+           th:href="@{/login}"
+           th:classappend="${paginaActiva == 'login'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Iniciar sesión
+        </a>
+
     </div>
 </nav>
