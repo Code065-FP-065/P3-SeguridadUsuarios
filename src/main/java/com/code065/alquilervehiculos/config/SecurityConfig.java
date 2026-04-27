@@ -26,11 +26,14 @@ public class SecurityConfig {
                                 "/images/**",
                                 "webjars/**"
                         ).permitAll()
-                        // Rutas exclusivas para usuarios con rol ADMIN
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        // Rutas accesibles para usuarios con rol USER o ADMIN.
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                        // Cualquier otra petición requiere autenticación.
+
+                        .requestMatchers("/clientes/**").hasRole("ADMIN")
+                        .requestMatchers("/vehiculos/**").hasRole("ADMIN")
+                        .requestMatchers("/alquileres/**").hasAnyRole("ADMIN", "USER")
+
                         .anyRequest().authenticated()
                 )
                 // Configuración del formulario de login.

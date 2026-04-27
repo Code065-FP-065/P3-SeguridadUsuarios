@@ -11,29 +11,31 @@
             Inicio
         </a>
 
-        <!-- Menú visible solo para usuarios autenticados -->
-        <a sec:authorize="isAuthenticated()"
+        <!-- ADMIN: puede gestionar clientes -->
+        <a sec:authorize="hasRole('ADMIN')"
            th:href="@{/clientes}"
            th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Clientes
         </a>
 
-        <a sec:authorize="isAuthenticated()"
+        <!-- ADMIN: puede gestionar vehículos -->
+        <a sec:authorize="hasRole('ADMIN')"
            th:href="@{/vehiculos}"
            th:classappend="${paginaActiva == 'vehiculos'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Vehículos
         </a>
 
-        <a sec:authorize="isAuthenticated()"
+        <!-- ADMIN y USER: pueden ver/interactuar con alquileres -->
+        <a sec:authorize="hasAnyRole('ADMIN','USER')"
            th:href="@{/alquileres}"
            th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Alquileres
         </a>
 
-        <!-- Enlace visible solo si NO hay sesión iniciada -->
+        <!-- Usuario no autenticado -->
         <a sec:authorize="isAnonymous()"
            th:href="@{/login}"
            th:classappend="${paginaActiva == 'login'} ? ' main-nav__link--active' : ''"
