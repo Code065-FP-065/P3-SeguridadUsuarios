@@ -50,5 +50,12 @@
             Iniciar sesión
         </a>
 
+        <a sec:authorize="isAnonymous()"
+           th:href="@{/registro}"
+           th:classappend="${paginaActiva == 'registro'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Registro
+        </a>
+
     </div>
 </nav>

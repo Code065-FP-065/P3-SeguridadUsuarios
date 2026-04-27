@@ -5,18 +5,23 @@ import com.code065.alquilervehiculos.model.Usuario;
 import com.code065.alquilervehiculos.repository.RolRepository;
 import com.code065.alquilervehiculos.repository.UsuarioRepository;
 import com.code065.alquilervehiculos.service.UsuarioService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UsuarioServiceImp implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImp(UsuarioRepository usuarioRepository, RolRepository rolRepository) {
+    public UsuarioServiceImp(UsuarioRepository usuarioRepository, RolRepository rolRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -59,5 +64,29 @@ public class UsuarioServiceImp implements UsuarioService {
         Rol rol = rolRepository.findByNombre(nombreRol).orElseThrow(() -> new IllegalArgumentException("No existe el rol:" + nombreRol));
         usuario.setRol(rol);
         return usuario;
+    }
+
+    @Override
+
+    public Usuario registrarUsuario(String username, String email, String password) {
+        if (usuarioRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Ya existe un usuario con ese nombre.");
+        }
+
+        if (usuarioRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Ya existe un usuario con ese email.");
+        }
+
+        Rol rolUser = rolRepository.findByNombre("USER")
+                .orElseThrow(() -> new IllegalStateException("No existe el rol USER en la base de datos."));
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(username);
+        usuario.setEmail(email);
+        usuario.setPasswordHash(passwordEncoder.encode(password));
+        usuario.setEnabled(true);
+        usuario.setRol(rolUser);
+
+        return usuarioRepository.save(usuario);
     }
 }

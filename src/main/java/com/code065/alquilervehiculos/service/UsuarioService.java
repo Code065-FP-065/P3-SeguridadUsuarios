@@ -23,4 +23,5 @@ public interface UsuarioService {
 
     Usuario asignarRolPorNombre(Usuario usuario, String nombreRol);
 
+    Usuario registrarUsuario(String username, String email, String password);
 }

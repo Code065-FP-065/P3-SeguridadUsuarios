@@ -30,9 +30,6 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers("/clientes/**").hasRole("ADMIN")
-                        .requestMatchers("/vehiculos/**").hasRole("ADMIN")
-
                         .anyRequest().authenticated()
                 )
                 // Configuración del formulario de login.
