@@ -46,6 +46,8 @@
                     <th>Total</th>
                     <th>Estado</th>
                     <th>Fecha alta</th>
+                    <th>Creado por</th>
+                    <th>Modificado por</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -61,6 +63,8 @@
                     <td th:text="${alquiler.total}">135.00</td>
                     <td th:text="${alquiler.estado}">PENDIENTE</td>
                     <td th:text="${#temporals.format(alquiler.createdAt, 'yyyy-MM-dd')}">2026-03-27</td>
+                    <td th:text="${alquiler.creadoPor != null ? alquiler.creadoPor.username : '-'}">admin</td>
+                    <td th:text="${alquiler.modificadoPor != null ? alquiler.modificadoPor.username : '-'}">admin</td>
                     <td>
                         <div class="table-actions">
                             <!-- Para añadir vista detalles

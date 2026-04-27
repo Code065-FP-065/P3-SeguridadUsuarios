@@ -1,9 +1,7 @@
 package com.code065.alquilervehiculos.controller.web;
 
-import com.code065.alquilervehiculos.model.Alquiler;
-import com.code065.alquilervehiculos.model.Cliente;
-import com.code065.alquilervehiculos.model.EstadoAlquiler;
-import com.code065.alquilervehiculos.model.Vehiculo;
+import com.code065.alquilervehiculos.model.*;
+import com.code065.alquilervehiculos.security.UsuarioAutenticadoService;
 import com.code065.alquilervehiculos.service.AlquilerService;
 import com.code065.alquilervehiculos.service.ClienteService;
 import com.code065.alquilervehiculos.service.VehiculoService;
@@ -21,18 +19,20 @@ public class AdminAlquilerViewController {
     private final AlquilerService alquilerService;
     private final ClienteService clienteService;
     private final VehiculoService vehiculoService;
+    private final UsuarioAutenticadoService usuarioAutenticadoService;
 
-    public AdminAlquilerViewController(AlquilerService alquilerService, ClienteService clienteService, VehiculoService vehiculoService) {
+    public AdminAlquilerViewController(AlquilerService alquilerService, ClienteService clienteService, VehiculoService vehiculoService, UsuarioAutenticadoService usuarioAutenticadoService) {
         this.alquilerService = alquilerService;
         this.clienteService = clienteService;
         this.vehiculoService = vehiculoService;
+        this.usuarioAutenticadoService = usuarioAutenticadoService;
     }
 
     @GetMapping
     public String listarAlquileres(Model model) {
         model.addAttribute("alquileres", alquilerService.listarAlquileres());
         model.addAttribute("paginaActiva", "alquileres");
-        model.addAttribute("rutaNuevoAlquler", "/admin/alquileres/nuevo");
+        model.addAttribute("rutaNuevoAlquiler", "/admin/alquileres/nuevo");
         model.addAttribute("modoAdmin", true);
         return "alquileres/lista";
     }
@@ -112,6 +112,19 @@ public class AdminAlquilerViewController {
         alquiler.setDias(dias);
         alquiler.setPrecioDiaAplicado(precioDiaAplicado);
         alquiler.setTotal(total);
+
+        Usuario usuarioActual = usuarioAutenticadoService.obtenerUsuarioActual();
+
+        if (alquiler.getIdAlquiler() == null) {
+            alquiler.setCreadoPor(usuarioActual);
+        } else {
+            Alquiler alquilerExistente = alquilerService.buscarAlquilerPorId(alquiler.getIdAlquiler())
+                    .orElseThrow(() -> new IllegalArgumentException("Alquiler no encontrado con id: " + alquiler.getIdAlquiler()));
+
+            alquiler.setCreadoPor(alquilerExistente.getCreadoPor());
+        }
+
+        alquiler.setModificadoPor(usuarioActual);
 
         alquilerService.guardarAlquiler(alquiler);
         return "redirect:/admin/alquileres";

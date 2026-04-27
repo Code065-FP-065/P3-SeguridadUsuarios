@@ -1,9 +1,7 @@
 package com.code065.alquilervehiculos.controller.web;
 
-import com.code065.alquilervehiculos.model.Alquiler;
-import com.code065.alquilervehiculos.model.Cliente;
-import com.code065.alquilervehiculos.model.EstadoAlquiler;
-import com.code065.alquilervehiculos.model.Vehiculo;
+import com.code065.alquilervehiculos.model.*;
+import com.code065.alquilervehiculos.security.UsuarioAutenticadoService;
 import com.code065.alquilervehiculos.service.AlquilerService;
 import com.code065.alquilervehiculos.service.ClienteService;
 import com.code065.alquilervehiculos.service.VehiculoService;
@@ -21,11 +19,13 @@ public class UserAlquilerViewController {
     private final AlquilerService alquilerService;
     private final ClienteService clienteService;
     private final VehiculoService vehiculoService;
+    private final UsuarioAutenticadoService usuarioAutenticadoService;
 
-    public UserAlquilerViewController(AlquilerService alquilerService, ClienteService clienteService, VehiculoService vehiculoService) {
+    public UserAlquilerViewController(AlquilerService alquilerService, ClienteService clienteService, VehiculoService vehiculoService, UsuarioAutenticadoService usuarioAutenticadoService) {
         this.alquilerService = alquilerService;
         this.clienteService = clienteService;
         this.vehiculoService = vehiculoService;
+        this.usuarioAutenticadoService = usuarioAutenticadoService;
     }
 
     @GetMapping
@@ -93,6 +93,11 @@ public class UserAlquilerViewController {
         alquiler.setDias(dias);
         alquiler.setPrecioDiaAplicado(precioDiaAplicado);
         alquiler.setTotal(total);
+
+        Usuario usuarioActual = usuarioAutenticadoService.obtenerUsuarioActual();
+
+        alquiler.setCreadoPor(usuarioActual);
+        alquiler.setModificadoPor(usuarioActual);
 
         alquilerService.guardarAlquiler(alquiler);
         return "redirect:/user/alquileres";
