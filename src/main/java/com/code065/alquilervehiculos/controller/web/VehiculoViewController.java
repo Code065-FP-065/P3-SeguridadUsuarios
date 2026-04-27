@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/admin/vehiculos")
 public class VehiculoViewController {
 
     private final VehiculoService vehiculoService;
@@ -19,14 +21,14 @@ public class VehiculoViewController {
         this.vehiculoService = vehiculoService;
     }
 
-    @GetMapping("/vehiculos")
+    @GetMapping
     public String listarVehiculos(Model model) {
         model.addAttribute("vehiculos", vehiculoService.listarVehiculos());
         model.addAttribute("paginaActiva", "vehiculos");
         return "vehiculos/lista";
     }
 
-    @GetMapping("/vehiculos/nuevo")
+    @GetMapping("/nuevo")
     public String mostrarFormularioNuevoVehiculo(Model model) {
         model.addAttribute("vehiculo", new Vehiculo());
         model.addAttribute("estadosVehiculo", EstadoVehiculo.values());
@@ -34,7 +36,7 @@ public class VehiculoViewController {
         return "vehiculos/formulario";
     }
 
-    @GetMapping("/vehiculos/editar/{id}")
+    @GetMapping("/editar/{id}")
     public String editarFormularioEditarVehiculo(@PathVariable Long id, Model model) {
         Vehiculo vehiculo = vehiculoService.buscarVehiculoPorId(id).orElseThrow(() -> new IllegalArgumentException("Vehiculo no encontrado con id: " + id));
         model.addAttribute("vehiculo", vehiculo);
@@ -43,13 +45,13 @@ public class VehiculoViewController {
         return "vehiculos/formulario";
     }
 
-    @PostMapping("/vehiculos/guardar")
+    @PostMapping("/guardar")
     public String guardarVehiculo(Vehiculo vehiculo) {
         vehiculoService.guardarVehiculo(vehiculo);
-        return "redirect:/vehiculos";
+        return "redirect:/admin/vehiculos";
     }
 
-    @PostMapping("vehiculos/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarVehiculo(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             vehiculoService.eliminarVehiculo(id);
@@ -58,6 +60,6 @@ public class VehiculoViewController {
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
         }
 
-        return "redirect:/vehiculos";
+        return "redirect:/admin/vehiculos";
     }
 }

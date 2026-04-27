@@ -12,7 +12,7 @@
     </section>
 
     <section class="toolbar">
-        <a th:href="@{/vehiculos/nuevo}" class="btn btn--primary">Nuevo vehículo</a>
+        <a th:href="@{/admin/vehiculos/nuevo}" class="btn btn--primary">Nuevo vehículo</a>
 
         <!-- PARA IMPLEMENTAR MÁS ADELANTE
         <div class="toolbar__search">
@@ -58,8 +58,8 @@
                             <!-- Para añadir vista detalles
                             <a href="#" class="icon-action">Ver</a>
                             -->
-                            <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.idVehiculo})}" class="icon-action">Editar</a>
-                            <form th:action="@{/vehiculos/eliminar/{id}(id=${vehiculo.idVehiculo})}" method="post" class="inline-form">
+                            <a th:href="@{/admin/vehiculos/editar/{id}(id=${vehiculo.idVehiculo})}" class="icon-action">Editar</a>
+                            <form th:action="@{/admin/vehiculos/eliminar/{id}(id=${vehiculo.idVehiculo})}" method="post" class="inline-form">
                                 <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
                             </form>
                         </div>

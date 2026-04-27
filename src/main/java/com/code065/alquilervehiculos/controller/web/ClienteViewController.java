@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/admin/clientes")
 public class ClienteViewController {
 
     private final ClienteService clienteService;
@@ -18,34 +20,35 @@ public class ClienteViewController {
         this.clienteService = clienteService;
     }
 
-    @GetMapping("/clientes")
+    @GetMapping
     public String listarClientes(Model model) {
         model.addAttribute("clientes", clienteService.listaClientes());
         model.addAttribute("paginaActiva", "clientes");
         return "clientes/lista";
     }
 
-    @GetMapping("/clientes/nuevo")
+    @GetMapping("/nuevo")
     public String mostrarFormularioNuevoCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
         model.addAttribute("paginaActiva", "clientes");
         return "clientes/formulario";
     }
 
-    @GetMapping("/clientes/editar/{id}")
+    @GetMapping("/editar/{id}")
     public String mostrarFormularioEditarCliente(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.buscarClientePorId(id).orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
         model.addAttribute("cliente", cliente);
+        model.addAttribute("paginaActiva", "clientes");
         return "clientes/formulario";
     }
 
-    @PostMapping("/clientes/guardar")
+    @PostMapping("/guardar")
     public String guardarCliente(Cliente cliente) {
         clienteService.guardarCliente(cliente);
-        return "redirect:/clientes";
+        return "redirect:/admin/clientes";
     }
 
-    @PostMapping("/clientes/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminarCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             clienteService.eliminarCliente(id);
@@ -54,6 +57,6 @@ public class ClienteViewController {
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
         }
 
-        return "redirect:/clientes";
+        return "redirect:/admin/clientes";
     }
 }

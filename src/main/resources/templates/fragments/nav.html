@@ -13,7 +13,7 @@
 
         <!-- ADMIN: puede gestionar clientes -->
         <a sec:authorize="hasRole('ADMIN')"
-           th:href="@{/clientes}"
+           th:href="@{/admin/clientes}"
            th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Clientes
@@ -21,7 +21,7 @@
 
         <!-- ADMIN: puede gestionar vehículos -->
         <a sec:authorize="hasRole('ADMIN')"
-           th:href="@{/vehiculos}"
+           th:href="@{/admin/vehiculos}"
            th:classappend="${paginaActiva == 'vehiculos'} ? ' main-nav__link--active' : ''"
            class="main-nav__link">
             Vehículos
