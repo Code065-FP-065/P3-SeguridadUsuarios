@@ -14,4 +14,6 @@ public interface AlquilerService {
     Alquiler guardarAlquiler(Alquiler alquiler);
 
     void eliminarAlquiler(Long id);
+
+    List<Alquiler> listarAlquileresPorUsernameCreador(String username);
 }

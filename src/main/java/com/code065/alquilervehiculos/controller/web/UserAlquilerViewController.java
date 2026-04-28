@@ -30,7 +30,12 @@ public class UserAlquilerViewController {
 
     @GetMapping
     public String listarAlquileresUsuario(Model model) {
-        model.addAttribute("alquileres", alquilerService.listarAlquileres());
+        Usuario usuarioActual = usuarioAutenticadoService.obtenerUsuarioActual();
+
+        model.addAttribute(
+                "alquileres",
+                alquilerService.listarAlquileresPorUsernameCreador(usuarioActual.getUsername())
+        );
         model.addAttribute("paginaActiva", "alquileres");
         model.addAttribute("rutaNuevoAlquiler", "/user/alquileres/nuevo");
         model.addAttribute("modoAdmin", false);
