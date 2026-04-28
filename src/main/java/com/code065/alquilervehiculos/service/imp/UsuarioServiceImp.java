@@ -89,4 +89,20 @@ public class UsuarioServiceImp implements UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+
+    @Override
+    public void activarUsuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id: " + id));
+        usuario.setEnabled(true);
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void desactivarUsuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id: " + id));
+        usuario.setEnabled(false);
+        usuarioRepository.save(usuario);
+    }
 }

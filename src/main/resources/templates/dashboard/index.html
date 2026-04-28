@@ -88,16 +88,21 @@
 
                 <a sec:authorize="hasRole('ADMIN')"
                    th:href="@{/admin/alquileres}"
-                   th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
-                   class="main-nav__link">
-                    Alquileres
+                   class="quick-action-btn">
+                    Ir a alquileres
                 </a>
 
                 <a sec:authorize="hasRole('USER')"
                    th:href="@{/user/alquileres}"
                    th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
-                   class="main-nav__link">
-                    Alquileres
+                   class="quick-action-btn">
+                    Ir a alquileres
+                </a>
+
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/usuarios}"
+                   class="quick-action-btn">
+                    Ir a usuarios
                 </a>
 
                 <a sec:authorize="isAnonymous()"
