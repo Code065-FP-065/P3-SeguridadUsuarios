@@ -1,0 +1,22 @@
+<nav th:fragment="nav" class="main-nav"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="main-nav__container">
+        <a th:href="@{/}" class="main-nav__link">Inicio</a>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <a th:href="@{/clientes}" class="main-nav__link">Clientes</a>
+            <a th:href="@{/vehiculos}" class="main-nav__link">Vehículos</a>
+            <a th:href="@{/alquileres}" class="main-nav__link">Alquileres</a>
+        </th:block>
+
+        <a th:href="@{/login}" sec:authorize="!isAuthenticated()" class="main-nav__link">Login</a>
+
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline;">
+            <button type="submit" class="main-nav__link" style="background:none; border:none; cursor:pointer; color:white;">
+                Salir (<span sec:authentication="name"></span>)
+            </button>
+        </form>
+    </div>
+</nav>

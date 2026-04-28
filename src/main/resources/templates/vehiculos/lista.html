@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Vehículos')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Gestión de Vehículos</h1>
+    </section>
+
+    <section class="toolbar" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/vehiculos/nuevo}" class="btn btn--primary">Nuevo vehículo</a>
+    </section>
+
+    <section class="card">
+        <div class="card__body card__body--no-padding">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Matrícula</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehiculo : ${vehiculos}">
+                    <td th:text="${vehiculo.idVehiculo}"></td>
+                    <td th:text="${vehiculo.matricula}"></td>
+                    <td th:text="${vehiculo.marca}"></td>
+                    <td th:text="${vehiculo.modelo}"></td>
+                    <td th:text="${vehiculo.estado}"></td>
+                    <td>
+                        <div class="table-actions">
+                            <a href="#" class="icon-action">Ver</a>
+
+                            <th:block sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.idVehiculo})}" class="icon-action">Editar</a>
+                                <form th:action="@{/vehiculos/eliminar/{id}(id=${vehiculo.idVehiculo})}" method="post" style="display:inline;">
+                                    <button type="submit" class="icon-action icon-action--danger"
+                                            onclick="return confirm('¿Eliminar este vehículo?')">Eliminar</button>
+                                </form>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Acceso al Sistema')}"></head>
+<body class="login-page"> <div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="card" style="max-width: 400px; margin: 2rem auto;">
+        <div class="card__header">
+            <h1 class="page-title">Acceso al Sistema</h1>
+        </div>
+
+        <div class="card__body">
+            <div th:if="${param.error}" class="alert alert--danger" style="color: #ff4d4d; margin-bottom: 1rem;">
+                Usuario o contraseña incorrectos.
+            </div>
+
+            <form th:action="@{/login}" method="post" class="form">
+                <div class="form__group">
+                    <label class="form__label">Usuario</label>
+                    <input type="text" name="username" class="form__input" required autofocus />
+                </div>
+
+                <div class="form__group" style="margin-top: 1rem;">
+                    <label class="form__label">Contraseña</label>
+                    <input type="password" name="password" class="form__input" required />
+                </div>
+
+                <div class="form__actions" style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn--primary" style="width: 100%;">Entrar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card__footer" style="text-align: center; margin-top: 1rem;">
+            <p>¿No tienes cuenta? <a th:href="@{/registro}" class="link">Regístrate aquí</a></p>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
