@@ -42,6 +42,22 @@
                     <td>
                         <div class="table-actions">
 
+                            <form th:action="@{/admin/usuarios/cambiar-rol/{id}(id=${usuario.idUsuario})}"
+                                  method="post"
+                                  class="inline-form">
+                                <select name="idRol">
+                                    <option th:each="rol : ${roles}"
+                                            th:value="${rol.idRol}"
+                                            th:text="${rol.nombre}"
+                                            th:selected="${usuario.rol.idRol == rol.idRol}">
+                                    </option>
+                                </select>
+
+                                <button type="submit" class="icon-action">
+                                    Cambiar rol
+                                </button>
+                            </form>
+
                             <form th:if="${!usuario.enabled}"
                                   th:action="@{/admin/usuarios/activar/{id}(id=${usuario.idUsuario})}"
                                   method="post"

@@ -1,12 +1,10 @@
 package com.code065.alquilervehiculos.controller.web;
 
+import com.code065.alquilervehiculos.service.RolService;
 import com.code065.alquilervehiculos.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -14,14 +12,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdminUsuarioVeiwController {
 
     private final UsuarioService usuarioService;
+    private final RolService rolService;
 
-    public AdminUsuarioVeiwController(UsuarioService usuarioService) {
+    public AdminUsuarioVeiwController(UsuarioService usuarioService, RolService rolService) {
         this.usuarioService = usuarioService;
+        this.rolService = rolService;
     }
 
     @GetMapping
     public String listarUsuarios(Model model) {
         model.addAttribute("usuarios", usuarioService.listarUsuarios());
+        model.addAttribute("roles", rolService.listarRoles());
         model.addAttribute("paginaActiva", "usuarios");
         return "usuarios/lista";
     }
@@ -37,6 +38,17 @@ public class AdminUsuarioVeiwController {
     public String desactivarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         usuarioService.desactivarUsuario(id);
         redirectAttributes.addFlashAttribute("mensajeExito", "Usuario desactivado correctamente.");
+        return "redirect:/admin/usuarios";
+    }
+
+    @PostMapping("/cambiar-rol/{id}")
+    public String cambiarRolUsuario(
+            @PathVariable Long id,
+            @RequestParam Long idRol,
+            RedirectAttributes redirectAttributes
+    ) {
+        usuarioService.cambiarRolUsuario(id, idRol);
+        redirectAttributes.addFlashAttribute("mensajeExito", "Rol actualizado correctamente.");
         return "redirect:/admin/usuarios";
     }
 }

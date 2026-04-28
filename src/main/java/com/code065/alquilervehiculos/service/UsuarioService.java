@@ -28,4 +28,6 @@ public interface UsuarioService {
     void activarUsuario(Long id);
 
     void desactivarUsuario(Long id);
+
+    void cambiarRolUsuario(Long idUsuario, Long idRol);
 }

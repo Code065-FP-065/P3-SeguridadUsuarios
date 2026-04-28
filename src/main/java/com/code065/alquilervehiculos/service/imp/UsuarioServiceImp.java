@@ -105,4 +105,16 @@ public class UsuarioServiceImp implements UsuarioService {
         usuario.setEnabled(false);
         usuarioRepository.save(usuario);
     }
+
+    @Override
+    public void cambiarRolUsuario(Long idUsuario, Long idRol) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id: " + idUsuario));
+
+        Rol rol = rolRepository.findById(idRol)
+                .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con id: " + idRol));
+
+        usuario.setRol(rol);
+        usuarioRepository.save(usuario);
+    }
 }

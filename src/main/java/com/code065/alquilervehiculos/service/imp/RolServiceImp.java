@@ -3,10 +3,12 @@ package com.code065.alquilervehiculos.service.imp;
 import com.code065.alquilervehiculos.model.Rol;
 import com.code065.alquilervehiculos.repository.RolRepository;
 import com.code065.alquilervehiculos.service.RolService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class RolServiceImp implements RolService {
 
     private final RolRepository rolRepository;
