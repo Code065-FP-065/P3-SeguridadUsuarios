@@ -17,7 +17,7 @@
 
     <section class="card form-card">
         <div class="card__body">
-            <form th:action="@{/vehiculos/guardar}" th:object="${vehiculo}" method="post" class="form-grid">
+            <form th:action="@{/admin/vehiculos/guardar}" th:object="${vehiculo}" method="post" class="form-grid">
 
                 <input type="hidden" th:field="*{idVehiculo}">
 
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <a th:href="@{/vehiculos}" class="btn btn--outline">Cancelar</a>
+                    <a th:href="@{/admin/vehiculos}" class="btn btn--outline">Cancelar</a>
                     <button type="submit" class="btn btn--primary">Guardar vehículo</button>
                 </div>
 

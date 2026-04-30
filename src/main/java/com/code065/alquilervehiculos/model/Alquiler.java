@@ -45,6 +45,14 @@ public class Alquiler {
     @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creado_por")
+    private Usuario creadoPor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modificado_por")
+    private Usuario modificadoPor;
+
     public Alquiler() {}
 
     public Alquiler(LocalDate fechaInicio, LocalDate fechaFin, EstadoAlquiler estado, Integer dias, BigDecimal precioDiaAplicado, BigDecimal total, Cliente cliente, Vehiculo vehiculo) {
@@ -137,4 +145,12 @@ public class Alquiler {
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
+
+    public Usuario getCreadoPor() {return creadoPor;}
+
+    public void setCreadoPor(Usuario creadoPor) {this.creadoPor = creadoPor;}
+
+    public Usuario getModificadoPor() {return modificadoPor;}
+
+    public void setModificadoPor(Usuario modificadoPor) {this.modificadoPor = modificadoPor;}
 }

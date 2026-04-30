@@ -314,6 +314,12 @@
     color: #9b2d2d;
 }
 
+.field-error {
+    color: #9b2d2d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr;

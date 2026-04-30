@@ -36,4 +36,9 @@ public class AlquilerServiceImp  implements AlquilerService {
     public void eliminarAlquiler(Long id) {
         alquilerRepository.deleteById(id);
     }
+
+    @Override
+    public List<Alquiler> listarAlquileresPorUsernameCreador(String username) {
+        return alquilerRepository.findByCreadoPorUsername(username);
+    }
 }

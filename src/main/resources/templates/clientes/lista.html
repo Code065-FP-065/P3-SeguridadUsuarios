@@ -14,7 +14,7 @@
     <div th:replace="~{fragments/messages :: messages}"></div>
 
     <section class="toolbar">
-        <a th:href="@{/clientes/nuevo}" class="btn btn--primary">Nuevo cliente</a>
+        <a th:href="@{/admin/clientes/nuevo}" class="btn btn--primary">Nuevo cliente</a>
 
         <!-- PARA IMPLEMENTAR MÁS ADELANTE
         <div class="toolbar__search">
@@ -56,8 +56,8 @@
                             <!-- Para añadir vista detalles
                             <a href="#" class="icon-action">Ver</a>
                             -->
-                            <a th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}" class="icon-action">Editar</a>
-                            <form th:action="@{/clientes/eliminar/{id}(id=${cliente.idCliente})}" method="post" class="inline-form">
+                            <a th:href="@{/admin/clientes/editar/{id}(id=${cliente.idCliente})}" class="icon-action">Editar</a>
+                            <form th:action="@{//adminclientes/eliminar/{id}(id=${cliente.idCliente})}" method="post" class="inline-form">
                                 <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
                             </form>
                         </div>

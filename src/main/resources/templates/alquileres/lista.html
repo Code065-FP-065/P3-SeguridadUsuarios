@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head :: head('Alquileres')}"></head>
 <body>
 
@@ -15,7 +17,7 @@
     <div th:replace="~{fragments/messages :: messages}"></div>
 
     <section class="toolbar">
-        <a th:href="@{/alquileres/nuevo}" class="btn btn--primary">Nuevo alquiler</a>
+        <a th:href="@{${rutaNuevoAlquiler}}" class="btn btn--primary">Nuevo alquiler</a>
         <!-- PARA IMPLEMENTAR MÁS ADELANTE
         <div class="toolbar__search">
             <input type="text" placeholder="Buscar por cliente o vehículo">
@@ -44,6 +46,8 @@
                     <th>Total</th>
                     <th>Estado</th>
                     <th>Fecha alta</th>
+                    <th>Creado por</th>
+                    <th>Modificado por</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -59,18 +63,32 @@
                     <td th:text="${alquiler.total}">135.00</td>
                     <td th:text="${alquiler.estado}">PENDIENTE</td>
                     <td th:text="${#temporals.format(alquiler.createdAt, 'yyyy-MM-dd')}">2026-03-27</td>
+                    <td th:text="${alquiler.creadoPor != null ? alquiler.creadoPor.username : '-'}">admin</td>
+                    <td th:text="${alquiler.modificadoPor != null ? alquiler.modificadoPor.username : '-'}">admin</td>
                     <td>
                         <div class="table-actions">
                             <!-- Para añadir vista detalles
                             <a href="#" class="icon-action">Ver</a>
                             -->
-                            <a th:href="@{/alquileres/editar/{id}(id=${alquiler.idAlquiler})}" class="icon-action">Editar</a>
-                            <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.idAlquiler})}"
+                            <a sec:authorize="hasRole('ADMIN')"
+                               th:href="@{/admin/alquileres/editar/{id}(id=${alquiler.idAlquiler})}"
+                               class="icon-action">
+                                Editar
+                            </a>
+
+                            <form sec:authorize="hasRole('ADMIN')"
+                                  th:action="@{/admin/alquileres/eliminar/{id}(id=${alquiler.idAlquiler})}"
                                   method="post"
                                   class="inline-form"
                                   onsubmit="return confirm('¿Seguro que deseas eliminar este alquiler?');">
-                                <button type="submit" class="icon-action icon-action--danger">Eliminar</button>
+                                <button type="submit" class="icon-action icon-action--danger">
+                                    Eliminar
+                                </button>
                             </form>
+
+                            <span sec:authorize="hasRole('USER')" class="page-subtitle">
+                                 Sin acciones
+                            </span>
                         </div>
                     </td>
                 </tr>
